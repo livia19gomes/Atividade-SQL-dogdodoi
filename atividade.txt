@@ -1,0 +1,102 @@
+/*1-Listar Veterinários com Especialidade Específica*/
+SELECT * FROM VETERINARIO 
+WHERE ESPECIALIDADE = 'Dermatologista'
+
+/*2-Buscar Pacientes por Faixa Etária*/
+SELECT * FROM PACIENTE
+WHERE IDADE BETWEEN 2 AND 5
+
+/*3-Listar Agendamentos em um Período Específico
+Escreva uma consulta para listar todos os agendamentos realizados
+ entre 1º de janeiro de 2024 e 31 de março de 2024.*/
+SELECT * FROM AGENDAMENTO 
+WHERE DATA_HORA BETWEEN '2024-01-01' AND '2024-03-31'
+
+/*4-Buscar Medicamentos com Preço Superior a Um Valor
+Escreva uma consulta para listar todos os medicamentos com preço superior a 25 reais.*/
+SELECT * FROM MEDICAMENTOS
+WHERE PRECO > 25 
+
+/*5-Filtrar Receitas por Data e Veterinário
+Escreva uma consulta para listar todas as receitas emitidas após 1º de junho de 2024
+ e associadas a um agendamento realizado pelo veterinário "Dr. Ana Souza". 
+ Use uma subconsulta para encontrar o id_veterinario.*/
+SELECT * FROM RECEITA 
+WHERE DATA_EMISSAO > '2024-06-1' AND ID_AGENDAMENTO =
+(SELECT ID_AGENDAMENTO FROM AGENDAMENTO a
+WHERE ID_VETERINARIO =
+(SELECT ID_VETERINARIO FROM VETERINARIO
+WHERE NOME = 'Dr. Ana Souza'))
+
+/*6-Listar Pacientes de Um Tutor Específico
+Escreva uma consulta para listar todos os pacientes
+ que pertencem ao tutor com o nome "Maria Silva". Use uma subconsulta para encontrar o id_tutor.*/
+SELECT * FROM PACIENTE p 
+WHERE ID_TUTOR =
+(SELECT ID_TUTOR FROM TUTOR
+WHERE NOME = 'Maria Silva')
+
+/*7-Buscar Itens de Receita para Medicamento Específico
+Escreva uma consulta para listar todos os itens de receita
+ que incluem o medicamento "Anti-inflamatório Y". Use uma subconsulta para encontrar o id_medicamento.*/
+SELECT * FROM ITENSRECEITA i 
+WHERE ID_MEDICAMENTO = 
+(SELECT ID_MEDICAMENTO FROM MEDICAMENTOS
+WHERE NOME = 'Anti-inflamatório Y')
+
+/*8-*/
+
+/*9-Listar Agendamentos por Veterinário e Motivo
+Escreva uma consulta para listar todos os agendamentos realizados
+ pelo veterinário "Dr. Pedro Lima" e que tenham o motivo "Exame de sangue". 
+ Use uma subconsulta para encontrar o id_veterinario.*/
+SELECT * FROM AGENDAMENTO a 
+WHERE ID_VETERINARIO = 
+(SELECT ID_VETERINARIO FROM VETERINARIO v
+WHERE NOME = 'Dr. Pedro Lima') AND MOTIVO = 'Exame de sangue'
+
+/*10-Listar Medicamentos com Descrição Não Nula e Preço Inferior a 50 Reais
+Escreva uma consulta para listar todos os medicamentos que possuem uma descrição 
+e cujo preço é inferior a 50 reais.*/
+SELECT * FROM MEDICAMENTOS m 
+WHERE DESCRICAO IS NOT NULL AND PRECO < 50
+
+/*11-Listar Pacientes com Peso Entre Dois Valores
+Escreva uma consulta para listar todos os pacientes com peso entre 3 e 10 kg.*/
+SELECT * FROM PACIENTE
+WHERE peso BETWEEN 3 AND 10
+
+/*12-Buscar Pacientes de um Tutor e com Peso Superior a um Valor
+Escreva uma consulta para listar todos os pacientes que pertencem ao tutor com o 
+nome "Carlos Lima" e têm peso superior a 5 kg.*/
+SELECT * FROM PACIENTE p 
+WHERE ID_TUTOR = (
+	SELECT ID_TUTOR FROM TUTOR t
+	WHERE NOME = 'Carlos Lima')
+	AND PESO > 5
+
+/*13-Listar Pacientes de Especie 'Cão' com Peso Inferior a 7 kg
+Escreva uma consulta para listar todos os pacientes da espécie "Cão" com peso inferior a 7 kg.*/
+SELECT * FROM PACIENTE p 
+WHERE ESPECIE = 'Cão'
+AND PESO < '7'
+
+/*14-Listar Agendamentos de um Período com Peso dos Pacientes
+ Escreva uma consulta para listar todos os agendamentos realizados 
+ entre 1º de abril de 2024 e 30 de junho de 2024, e mostrar o nome do paciente 
+ e o peso do paciente associado.*/			
+
+/*15-Listar Pacientes que Não Tiveram Consultas
+ Escreva uma consulta para listar todos os pacientes
+  que não têm nenhum agendamento registrado.*/
+SELECT * FROM PACIENTE p 
+WHERE ID_PACIENTE NOT IN 
+(SELECT ID_PACIENTE FROM AGENDAMENTO)
+
+/*16-Listar Pacientes que Não Tiveram Consultas por periodo
+ Escreva uma consulta para listar todos os pacientes que não têm 
+ nenhum agendamento registrado no período de 01/01/2024 até 15/01/2024*/
+SELECT * FROM PACIENTE p 
+WHERE ID_PACIENTE NOT IN (
+SELECT ID_PACIENTE FROM AGENDAMENTO 
+WHERE DATA_HORA BETWEEN '2024-01-01' AND '2024-01-15')
